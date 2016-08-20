@@ -6,7 +6,7 @@
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
-"""Mimic pyquick exercise -- optional extra exercise.
+"""Mimic pyquick exercise -- optional extra exercise. 
 Google's Python Class
 
 Read in the file specified on the command line.

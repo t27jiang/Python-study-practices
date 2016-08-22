@@ -17,7 +17,31 @@ import commands
 
 # +++your code here+++
 # Write functions and modify main() to call them
+def get_special_paths(dirname):
+  result = []
+  paths = os.listdir(dirname)  # list of paths in that dir
+  for fname in paths:
+    match = re.search(r'__(\w+)__', fname)
+    if match:
+      result.append(os.path.abspath(os.path.join(dirname, fname)))
+  return result
 
+
+def copy_to(paths, to_dir):
+  if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
+  for path in paths:
+    fname = os.path.basename(path)
+    shutil.copy(path, os.path.join(to_dir, fname))
+
+def zip_to(paths, zipfile):
+  cmd = 'zip -j ' + zipfile + ' ' + ' '.join(paths)
+  print "Command I'm going to do:" + cmd
+  (status, output) = commands.getstatusoutput(cmd)
+ 
+  if status:
+    sys.stderr.write(output)
+    sys.exit(1)
 
 
 def main():
@@ -50,6 +74,14 @@ def main():
 
   # +++your code here+++
   # Call your functions
-  
+  paths = []
+  for dirname in args:
+    paths.extend(get_special_paths(dirname))
+
+  if todir:
+    copy_to(paths, todir)
+  elif tozip:
+    zip_to(paths, tozip)
+
 if __name__ == "__main__":
   main()
